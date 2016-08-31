@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// Author: ***
-// Date:   ***
+// Author: Nigel Smith
+// Date:   09/07/16(due date)
 // Tabs:   ***  (indicate the separation between tab stops)
 
 public class Arithmetic
