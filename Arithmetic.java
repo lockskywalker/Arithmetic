@@ -1,3 +1,4 @@
+package arithmetic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,69 +60,28 @@ public class Arithmetic
 	  
 	  if (lengtha >= lengthb)
 	  {
-		  carry = new byte[lengtha+1];
-		  match = new byte[A.length];
-		  dif = (A.length - B.length);
-		  sumbyte = new byte[A.length];
-		  result = new byte[A.length];
-		  
-		  for (int n = dif; n <= lengtha; n++)
-		  	 {
-			    match[n] = B[n - dif];
-			 }
-		  
-		  for (int i = lengtha; i >= 0; i--)
-		  {
-			  if (A[i] + match[i] + carry[i] == 1){
-				  sumbyte[i] = 1;
-				  
-				  if (i == 0)
-				  {			  
-					  for (int x = 0; x < sumbyte.length; x++){
-						  System.out.print(sumbyte[x]); 
-					  }
-					  return sumbyte;  
-				  }
-			  }
-			  else if (A[i] + match[i] + carry[i] == 2)
-			  {
-				  sumbyte[i] = 0;
-				  
-				  if (i == 0)
-				  {
-					  carryprint(sumbyte, result, lengtha);
-					  return result;
-				  } 
-				  
-				  carry[i-1] = 1;
-			  }
-			  else if (A[i] + match[i] + carry[i] == 0)
-			  {
-				  sumbyte[i] = 0;
-			  }
-			  else {
-				  sumbyte[i] = 1;
-				  
-				  if(i==0)
-				  {					 
-					 if (A[i] + match[i] + carry[i] != 2)
-					 {
-						 carryprint(sumbyte, result, lengtha);
-						 return result;
-					 }					 
-				  }
-				  carry[i-1] = 1;			  
-			  }
-		  }
-		  return result;
+            result = new byte[A.length];
+            aGreaterEqual(lengtha, A, B);         
+            return result;
 	  } 
 	  else
 	  {
-		  carry = new byte[lengthb+1];
-		  match = new byte[B.length];
-		  dif = (B.length - A.length);
-		  sumbyte = new byte[B.length];
-		  result = new byte[B.length];
+            result = new byte[A.length];
+            bGreater(lengtha, A, B);
+            return result;
+	  }
+  }
+  
+  //=============================================================
+  //bGreater() returns the result of A+B when B is greater than A
+  //=============================================================
+  public static byte[] bGreater(int lengthb, byte[] A, byte[] B)
+  {
+          byte[] carry = new byte[lengthb+1];
+	  byte[] match = new byte[B.length];
+	  int dif = (B.length - A.length);
+	  byte[] sumbyte = new byte[B.length];
+	  byte[] result = new byte[B.length];
 		  
 		  for (int n = dif; n <= lengthb; n++)
 		  	 {
@@ -171,17 +131,15 @@ public class Arithmetic
 				  carry[i-1] = 1;			  
 			  }
 		  }
-		  return result;
-	  }
+    return result;
   }
   
   //=========================================================================
   //aGreaterEqual() returns the result of A+B when A is greater or equal to B
   //=========================================================================
   
-  public static byte[] aGreaterEqual()
-  {
-	  
+  public static byte[] aGreaterEqual(int lengtha, byte[] A, byte[] B)
+  {	  
 	  byte[] carry = new byte[lengtha+1];
 	  byte[] match = new byte[A.length];
 	  int dif = (A.length - B.length);
