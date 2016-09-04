@@ -1,4 +1,3 @@
-package arithmetic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,8 +65,8 @@ public class Arithmetic
 	  } 
 	  else
 	  {
-            result = new byte[A.length];
-            bGreater(lengtha, A, B);
+            result = new byte[B.length];
+            bGreater(lengthb, A, B);
             return result;
 	  }
   }
@@ -77,7 +76,7 @@ public class Arithmetic
   //=============================================================
   public static byte[] bGreater(int lengthb, byte[] A, byte[] B)
   {
-          byte[] carry = new byte[lengthb+1];
+      byte[] carry = new byte[lengthb+1];
 	  byte[] match = new byte[B.length];
 	  int dif = (B.length - A.length);
 	  byte[] sumbyte = new byte[B.length];
@@ -233,4 +232,3 @@ public class Arithmetic
 	  sum(testa, testb);
   } 
 }
-
