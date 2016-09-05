@@ -222,13 +222,55 @@ public class Arithmetic
 
   public static byte[] product(byte[] A, byte[] B)
   {
+	  byte[] total = new byte[(A.length+B.length)-1];
+	  byte[] result;
+	  int shift = total.length - A.length;
+	  
+	  if(A.length > B.length)
+	  {	  
+		  if(A[0] == 1)
+		  {
+ 			 for (int i = B.length-1; i >= 0; --i)
+			 {
+				 if(B[i] == 1)
+				 {   
+					 byte[] aWithZero = addZero(A, shift, total.length).clone();				 
+					 result = sum(aWithZero, total).clone();
+					 //total = sum(total, addZero(A, shift, total.length));
+				 }
+				 --shift;
+			}
+		  }
+	  }
+	  
 	  return null;
+  }
+  
+  //==============================================================================================
+  // addZero(A,B) returns an array of bits representing "in" inside of "size" at position "shift"
+  //==============================================================================================
+  
+  public static byte[] addZero(byte[] in, int shift, int size)
+  {
+	 byte[] result = new byte[size];
+	 for(int i = 0; i < in.length; i++)
+	 {
+		 result[i+shift] = in[i];
+	 }
+	 
+	 for(int n = 0; n < result.length; n++)
+	 {
+	 System.out.print(result[n]);
+	 }
+	 
+	 return result;
   }
   
   public static void main(String[] args)
   {
-	  byte[] testa = {1,0,1,0,0,1};
-	  byte[] testb = {1,0,1,1,1,1,1,0,0};
-	  sum(testa, testb);
+	  byte[] testa = {1,0,1,1};
+	  byte[] testb = {1,1,0,1};
+	  //sum(testa, testb);
+	  product(testa, testb);
   } 
 }
