@@ -15,6 +15,7 @@ public class Arithmetic
   public static byte[] inc(byte[] A)
   {
 	  int lengtha = A.length-1;
+	  byte[] result = null;
 	  
 	  for (int i = lengtha; i >= 0; i--)
 	  {
@@ -28,17 +29,15 @@ public class Arithmetic
 		  }
 		  else
 		  {  
-			  if (A[i] == 0){
-				  A[i] = 1;
-				  break;
+			  A[i] = 0;
+			  
+			  if (i == 0)
+			  {
+				  result = new byte[A.length+1];
+				  result[i] = 1;
+				  return result;
 			  }
-			  else {
-				  A[i] = 0;
-			  } 
 		  }
-	  }
-	  for (int n = 0; n < A.length; n++){
-		  System.out.print(A[n]); 
 	  }
 	return A;
   }
@@ -53,14 +52,14 @@ public class Arithmetic
 	  byte[] sumbyte;
 	  int lengthb = B.length-1;
 	  byte[] carry;
-	  byte[] result;
+	  byte[] result = null;
 	  int dif;
 	  byte match[];
 	  
 	  if (lengtha >= lengthb)
 	  {
             result = new byte[A.length];
-            aGreaterEqual(lengtha, A, B);         
+            result = aGreaterEqual(lengtha, A, B);      
             return result;
 	  } 
 	  else
@@ -192,19 +191,19 @@ public class Arithmetic
 			  carry[i-1] = 1;			  
 		  }
 	  }
-	  return result;
+	  return sumbyte;
   }
   
   
   //===========================================================================================================
-  // copyprint(sumbyte, result, lengtha) returns an array of bits representing 1 added to the beginning of A+B.
+  // carryprint(sumbyte, result, lengtha) returns an array of bits representing 1 added to the beginning of A+B.
   //===========================================================================================================
 
   public static byte[] carryprint(byte[] sumbyte, byte[] result, int length){	
 	     result[0] = 1;
 		 int bytelength = length; 
 	  
-		 for (int n = 1; n < bytelength; n++)
+		 for (int n = 1; n < bytelength+1; n++)
 		 {
 		     result[n] = sumbyte[n-1];
 		 }
@@ -222,28 +221,62 @@ public class Arithmetic
 
   public static byte[] product(byte[] A, byte[] B)
   {
-	  byte[] total = new byte[(A.length+B.length)-1];
-	  byte[] result;
-	  int shift = total.length - A.length;
+	  byte[] total = new byte[(A.length+B.length)];
+	  byte[] result = null;
+	  byte[] aOriginal = addZero(A, total.length - A.length, total.length);
+	  byte[] bOriginal = addZero(B, total.length - B.length, total.length);
 	  
-	  if(A.length > B.length)
+	  int shiftAbyte = total.length - A.length;
+	  int shiftBbyte = total.length - B.length;
+	  
+	  if(A.length >= B.length)
 	  {	  
 		  if(A[0] == 1)
 		  {
- 			 for (int i = B.length-1; i >= 0; --i)
+			 result = aOriginal;
+			 --shiftAbyte;
+ 			 for (int i = B.length-2; i >= 0; --i)
 			 {
 				 if(B[i] == 1)
 				 {   
-					 byte[] aWithZero = addZero(A, shift, total.length).clone();				 
-					 result = sum(aWithZero, total).clone();
-					 //total = sum(total, addZero(A, shift, total.length));
+					 byte[] aShift = addZero(A, shiftAbyte, total.length);	
+					 result = sum(result, aShift);
+					 --shiftAbyte;
 				 }
-				 --shift;
+				 else
+				 {
+					 --shiftAbyte; 
+				 }		 
+			}
+		  }
+	  }
+	  else
+	  {
+		  if(B[0] == 1)
+		  {
+			 result = bOriginal;
+			 --shiftBbyte;
+ 			 for (int i = A.length-2; i >= 0; --i)
+			 {
+				 if(A[i] == 1)
+				 {   
+					 byte[] bShift = addZero(B, shiftBbyte, total.length);	
+					 result = sum(result, bShift);
+					 --shiftBbyte;
+				 }
+				 else
+				 {
+					 --shiftBbyte; 
+				 }		 
 			}
 		  }
 	  }
 	  
-	  return null;
+	  if(result[0] == 0)
+	  {
+		 result = removeZero(result);
+	  }
+	  return result;
   }
   
   //==============================================================================================
@@ -266,11 +299,23 @@ public class Arithmetic
 	 return result;
   }
   
+  public static byte[] removeZero(byte[] answer)
+  {
+	  byte[] result = new byte[answer.length-1];
+	  for(int i = 1; i < result.length; i++)
+	  {
+		  result[i-1] = answer[i];
+	  }
+	  return result;
+  }
+  
   public static void main(String[] args)
   {
-	  byte[] testa = {1,0,1,1};
-	  byte[] testb = {1,1,0,1};
+	  byte[] testa = {1,0};
+	  byte[] testb = {1,1};
+	  byte[] test ={1,1,0,1,1,1,1,1};
 	  //sum(testa, testb);
-	  product(testa, testb);
+	  //product(testa, testb);
+	  inc(test);
   } 
 }
